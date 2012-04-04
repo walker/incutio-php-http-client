@@ -1,13 +1,14 @@
 <?php
 
 /* Version 0.9, 6th April 2003 - Simon Willison ( http://simon.incutio.com/ )
-   Further Information: http://code.google.com/p/php-httpclient/
+   Further Information: https://github.com/walker/Incutio-PHP-HTTP-Client
    Historical Details: http://scripts.incutio.com/httpclient/
    Incutio Ltd - www.incutio.com
    
 * Version 0.9d, 4th, April 2012 Walker Hamilton (http://walkerhamilton.com)
  - Added PUT & DELETE request types, reused postdata
  - Added in proper header setting for some of the items that were being set automatically or were only being set on POST
+ - Created GitHub Repo: https://github.com/walker/Incutio-PHP-HTTP-Client
 */
 
 class HttpClient {
@@ -37,14 +38,14 @@ class HttpClient {
 	protected $accept_encoding = 'gzip';
 	protected $accept_language = 'en-us';
 	protected $user_agent = 'Incutio HttpClient v0.9d';
-	protected $request_headers = array('Content-Type'=>'application/x-www-form-urlencoded');
+	protected $request_headers = array();
 	
 	// * Options:
 	
 	protected $timeout = 20;
 	protected $use_gzip = true;
 	protected $persist_cookies = true;
-	protected $persist_referers = true;
+	protected $persist_referers = false;
 	protected $debug = false;
 	protected $handle_redirects = true;
 	protected $max_redirects = 5;
