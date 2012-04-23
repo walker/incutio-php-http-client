@@ -378,7 +378,7 @@ class HttpClient {
 	
 	// --- Static utility methods:
 	
-	public static function quickGet($url, $data = null) {
+	public static function quickGet($url, $data = null, $headers = null) {
 		
 		/*
 		
@@ -391,17 +391,17 @@ class HttpClient {
 		*/
 		
 		$client = self::create($url);
-		$client->get($client->getPath(), $data);
+		$client->get($client->getPath(), $data, $headers);
 		return $client;
 		
 	}
 	
-	public static function quickPost($url, $data) {
+	public static function quickPost($url, $data, $headers) {
 		
 		// Similar to [HttpClient::quickGet()], but performs a POST query.
 		
 		$client = self::create($url);
-		$client->post($client->getPath(), $data);
+		$client->post($client->getPath(), $data, $headers);
 		return $client;
 		
 	}
