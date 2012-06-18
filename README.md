@@ -12,28 +12,28 @@ Where the first argument is the domain and the second is the port. The port is o
 
 ## GET
 
-`$data` can be an object or an array.
+`$data` can be an object or array.
 `$headers` should be an array
 
 	$client->get('/service/endpoint', $data, $headers)
 
 ## POST
 
-`$data` can be an object or an array.
+`$data` can be a string, object, or array.
 `$headers` should be an array
 
 	$client->post('/service/endpoint', $data, $headers)
 
 ## PUT
 
-`$data` can be an object or an array.
+`$data` can be a string, object, or array.
 `$headers` should be an array
 
 	$client->put('/service/endpoint', $data, $headers)
 
 ## DELETE
 
-`$data` can be an object or an array.
+`$data` can be a string, object, or array.
 `$headers` should be an array
 
 	$client->put('/service/endpoint', $data, $headers)
