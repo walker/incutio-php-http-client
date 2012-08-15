@@ -49,6 +49,7 @@ class HttpClient {
     protected $handle_redirects = true;
     protected $max_redirects = 5;
     protected $headers_only = false;
+    protected $strict_redirects = false;
 
     // * Basic authorization variables:
 
@@ -340,6 +341,12 @@ class HttpClient {
         $this->handle_redirects = $boolean;
     }
 
+    public function setStrictRedirects($boolean) {
+        // Specify if the client should check for a 301, 302, or 307 status code before handling a redirect.
+        // Disabled default.
+        $this->strict_redirects = $boolean;
+    }
+
     public function setMaxRedirects($num) {
         // Set the maximum number of redirects allowed before the client
         // gives up (mainly to prevent infinite loops). Defaults to 5 redirects.
@@ -610,25 +617,25 @@ class HttpClient {
         }
 
         // * Finally, if handle_redirects and a redirect is sent, do that:
-
+        $redirect_status_codes = array(301, 302, 307);
         if ($this->handle_redirects) {
+            if(!$this->strict_redirects || in_array($this->status, $redirect_status_codes)) {
+                if (++$this->redirect_count >= $this->max_redirects) {
+                    $this->errormsg = 'Number of redirects exceeded maximum ('.$this->max_redirects.')';
+                    $this->debug($this->errormsg);
+                    $this->redirect_count = 0;
+                    return false;
+                }
 
-            if (++$this->redirect_count >= $this->max_redirects) {
-                $this->errormsg = 'Number of redirects exceeded maximum ('.$this->max_redirects.')';
-                $this->debug($this->errormsg);
-                $this->redirect_count = 0;
-                return false;
+                $location = isset($this->headers['location']) ? $this->headers['location'] : '';
+                $location .= isset($this->headers['uri']) ? $this->headers['uri'] : '';
+                if ($location) {
+                    $this->debug("Following redirect to: $location" . (@$url['host'] ? ", host: ".$url['host'] : ''));
+                    $url = parse_url($location);
+                    if (@$url['host']) $this->host = $url['host'];
+                    return $this->get(($url['path']{0} == '/' ? '' : '/') . $url['path']);
+                }
             }
-
-            $location = isset($this->headers['location']) ? $this->headers['location'] : '';
-            $location .= isset($this->headers['uri']) ? $this->headers['uri'] : '';
-            if ($location) {
-                $this->debug("Following redirect to: $location" . (@$url['host'] ? ", host: ".$url['host'] : ''));
-                $url = parse_url($location);
-                if (@$url['host']) $this->host = $url['host'];
-                return $this->get(($url['path']{0} == '/' ? '' : '/') . $url['path']);
-            }
-
         }
 
         return true;
