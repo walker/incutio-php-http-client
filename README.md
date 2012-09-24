@@ -57,3 +57,16 @@ Headers should be things like:
 The Incutio library used to set the referer of a call as the last item called. I rarely find this helpful, so it's turned off by default now. To turn it back on:
 
 	$this->client->setPersistReferers(true);
+
+## Response Content
+
+Get the content returned by the most recent URL call.
+
+	$client->getContent();
+
+## Response Headers
+
+You can get just the status or all the headers from your most recent URL call:
+
+	$client->getStatus();
+	$client->getHeaders();
