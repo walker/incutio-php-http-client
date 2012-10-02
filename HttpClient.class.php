@@ -29,6 +29,7 @@ class HttpClient {
     // * Request vars:
 
     protected $host, $port, $path;
+    protected $scheme;
     protected $method;
     protected $postdata = '';
     protected $cookies = array();
@@ -69,14 +70,13 @@ class HttpClient {
     // --- Constructor / destructor:
 
     public function __construct($host, $port=80) {
-
         /*
-
+        
         $host: the web server host (for example, 'scripts.incutio.com')
         $port: optional port number
-
+        
         */
-
+        
         $this->host = $host;
         $this->port = $port;
 
@@ -377,6 +377,19 @@ class HttpClient {
         $this->path = $path;
     }
 
+    public function setScheme($scheme) {
+        // Manually set the path (not usually needed).
+        switch($scheme) {
+            case 'https':
+                $this->scheme = $scheme;
+                $this->port = 443;
+                break;
+            case 'http':
+            default:
+                $this->scheme = 'http';
+        }
+    }
+
     public function setMethod($method) {
         // Manually set the request method (not usually needed).
         if (!in_array($method, array("GET","POST","PUT","DEL"."ETE"))) trigger_error("HttpClient::setMethod() : '$method' is not a valid method", E_USER_ERROR);
@@ -427,15 +440,17 @@ class HttpClient {
 
         */
 
-        $bits = parse_url($url);
-        $host = $bits['host'];
-        $port = isset($bits['port']) ? $bits['port'] : 80;
-        $path = isset($bits['path']) ? $bits['path'] : '/';
+        $bits   = parse_url($url);
+        $host   = $bits['host'];
+        $scheme = isset($bits['scheme']) ? $bits['scheme'] : 'http';
+        $port   = isset($bits['port']) ? $bits['port'] : 80;
+        $path   = isset($bits['path']) ? $bits['path'] : '/';
 
         if (isset($bits['query']))
             $path .= '?'.$bits['query'];
 
         $client = new HttpClient($host, $port);
+        $client->setScheme($scheme);
         $client->setPath($path);
         $client->setMethod("GET");
 
@@ -473,8 +488,19 @@ class HttpClient {
 
         // Performs the actual HTTP request, returning true on success, false on error.
         // (You do not usually need to call this manually)
-
-        if (!$fp = @fsockopen($this->host, $this->port, $errno, $errstr, $this->timeout)) {
+        
+        if($this->scheme=='https') {
+            $host = 'ssl://'.$this->host;
+            $this->port = 443;
+        } else {
+            $host = $this->host;
+        }
+        
+        // var_dump($host);
+        // echo '<br />';
+        // var_dump($this->port);
+        // echo '<br />';
+        if (!$fp = @fsockopen($host, $this->port, $errno, $errstr, $this->timeout)) {
             // * Set error message:
             switch($errno) {
                 case -3:
@@ -494,6 +520,10 @@ class HttpClient {
         socket_set_timeout($fp, $this->timeout);
 
         $request = $this->buildRequest();
+        // echo '<pre>';
+        // var_dump($request);
+        // echo '</pre>';
+        // echo '<br />';
         $this->debug('Request', $request);
         fwrite($fp, $request);
 
@@ -632,6 +662,7 @@ class HttpClient {
                 if ($location) {
                     $this->debug("Following redirect to: $location" . (@$url['host'] ? ", host: ".$url['host'] : ''));
                     $url = parse_url($location);
+                    if (@$url['scheme']) $this->scheme = $url['scheme'];
                     if (@$url['host']) $this->host = $url['host'];
                     return $this->get(($url['path']{0} == '/' ? '' : '/') . $url['path']);
                 }
