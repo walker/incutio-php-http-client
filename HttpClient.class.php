@@ -496,10 +496,18 @@ class HttpClient {
             $host = $this->host;
         }
         
-        // var_dump($host);
-        // echo '<br />';
-        // var_dump($this->port);
-        // echo '<br />';
+        if($this->debug) {
+            echo '<h2>Host</h2>';
+            echo '<pre>';
+            var_dump($host);
+            echo '</pre><br />';
+            if(!empty($this->port)) {
+                echo '<h2>Port Used</h2>';
+                echo '<pre>';
+                var_dump($this->port);
+                echo '</pre><br />';
+            }
+        }
         if (!$fp = @fsockopen($host, $this->port, $errno, $errstr, $this->timeout)) {
             // * Set error message:
             switch($errno) {
@@ -520,10 +528,12 @@ class HttpClient {
         socket_set_timeout($fp, $this->timeout);
 
         $request = $this->buildRequest();
-        // echo '<pre>';
-        // var_dump($request);
-        // echo '</pre>';
-        // echo '<br />';
+        if($this->debug) {
+            echo '<h2>Built Request</h2>';
+            echo '<pre>';
+            var_dump($request);
+            echo '</pre><br />';
+        }
         $this->debug('Request', $request);
         fwrite($fp, $request);
 
