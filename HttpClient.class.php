@@ -426,7 +426,7 @@ class HttpClient {
 
     }
 
-    public function create($url) {
+    static function create($url) {
 
         /*
 
