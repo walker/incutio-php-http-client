@@ -6,13 +6,13 @@ Of all I can find on the HTTP spec, body content is allowed with POST, PUT, and 
 
 ## Instantiation
 
-	$client = HttpClient::create('www.domain.com', 80);
+	$client = new HttpClient('www.domain.com', 80);
 	
 Where the first argument is the domain and the second is the port. The port is optional and default to 80 if not provided.
 
 If you'd like to instantiate on an https:// URL, add it to the domain:
 
-	$client = HttpClient::create('https://www.domain.com');
+	$client = new HttpClient('https://www.domain.com');
 
 This will automatically use port 443 when connecting.
 
