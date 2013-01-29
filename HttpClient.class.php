@@ -108,12 +108,18 @@ class HttpClient {
 
         */
 
-        $this->path = $path;
+        $orig_path = $this->path;
+        if(!empty($this->path))
+            $this->path .= $path;
+        else
+            $this->path = $path;
         $this->method = 'GET';
         if ($data) $this->path .= '?'.http_build_query($data);
         $this->setRequestHeaders($headers);
-        return $this->doRequest();
+        $result = $this->doRequest();
+        $this->path = $orig_path;
 
+        $this->postdata = null;
     }
 
     public function post($path, $data, $headers=array()) {
@@ -132,11 +138,16 @@ class HttpClient {
 
         */
 
-        $this->path = $path;
+        $orig_path = $this->path;
+        if(!empty($this->path))
+            $this->path .= $path;
+        else
+            $this->path = $path;
         $this->method = 'POST';
         $this->setRequestHeaders($headers);
         $this->buildQuery($data);
         $result = $this->doRequest();
+        $this->path = $orig_path;
 
         $this->postdata = null;
     }
@@ -157,11 +168,16 @@ class HttpClient {
 
         */
 
-        $this->path = $path;
+        $orig_path = $this->path;
+        if(!empty($this->path))
+            $this->path .= $path;
+        else
+            $this->path = $path;
         $this->method = 'PUT';
         $this->setRequestHeaders($headers);
         $this->buildQuery($data);
         $result = $this->doRequest();
+        $this->path = $orig_path;
 
         $this->postdata = null;
     }
@@ -178,12 +194,17 @@ class HttpClient {
         using the getError() method.
 
         */
-
-        $this->path = $path;
+        
+        $orig_path = $this->path;
+        if(!empty($this->path))
+            $this->path .= $path;
+        else
+            $this->path = $path;
         $this->method = 'DEL'.'ETE';
         $this->setRequestHeaders($headers);
         $this->buildQuery($data);
         $result = $this->doRequest();
+        $this->path = $orig_path;
 
         $this->postdata = null;
     }
