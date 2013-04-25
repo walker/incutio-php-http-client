@@ -76,10 +76,24 @@ class HttpClient {
         $port: optional port number
         
         */
-        
+
+        $bits   = parse_url($host);
+        if(isset($bits['scheme']) && isset($bits['path']) && isset($bits['host'])) {
+            $host   = $bits['host'];
+            $scheme = isset($bits['scheme']) ? $bits['scheme'] : 'http';
+            $port   = isset($bits['port']) ? $bits['port'] : 80;
+            $path   = isset($bits['path']) ? $bits['path'] : '/';
+            
+            if (isset($bits['query']))
+                $path .= '?'.$bits['query'];
+        }
         $this->host = $host;
         $this->port = $port;
-
+        if(isset($bits['scheme']) && isset($bits['path']) && isset($bits['host'])) {
+            $client->setScheme($scheme);
+            $client->setPath($path);
+            $client->setMethod("GET");
+        }
     }
 
     public function __destruct() {
@@ -108,7 +122,7 @@ class HttpClient {
 
         */
 
-        $orig_path = $this->path;
+        $this->orig_path = $this->path;
         if(!empty($this->path))
             $this->path .= $path;
         else
@@ -117,7 +131,7 @@ class HttpClient {
         if ($data) $this->path .= '?'.http_build_query($data);
         $this->setRequestHeaders($headers);
         $result = $this->doRequest();
-        $this->path = $orig_path;
+        $this->path = $this->orig_path;
 
         $this->postdata = null;
     }
@@ -461,21 +475,7 @@ class HttpClient {
 
         */
 
-        $bits   = parse_url($url);
-        $host   = $bits['host'];
-        $scheme = isset($bits['scheme']) ? $bits['scheme'] : 'http';
-        $port   = isset($bits['port']) ? $bits['port'] : 80;
-        $path   = isset($bits['path']) ? $bits['path'] : '/';
-
-        if (isset($bits['query']))
-            $path .= '?'.$bits['query'];
-
-        $client = new HttpClient($host, $port);
-        $client->setScheme($scheme);
-        $client->setPath($path);
-        $client->setMethod("GET");
-
-        return $client;
+        return new HttpClient($url);
 
     }
 
