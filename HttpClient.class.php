@@ -46,7 +46,7 @@ class HttpClient {
     protected $use_gzip = true;
     protected $persist_cookies = true;
     protected $persist_referers = false;
-    protected $debug = false;
+    protected $debug = true;
     protected $handle_redirects = true;
     protected $max_redirects = 5;
     protected $headers_only = false;
@@ -734,7 +734,11 @@ class HttpClient {
 
         if(!empty($this->request_headers)) {
             foreach($this->request_headers as $key => $val) {
-                $headers[] = $key.': '.$val;
+                if($key=='Content-Length' && $val===false) {
+                    // do nothing
+                } else {
+                    $headers[] = $key.': '.$val;
+                }
             }
         }
 
@@ -750,7 +754,7 @@ class HttpClient {
         if (!isset($this->request_headers['Accept-language']))
             $headers[] = "Accept-language: {$this->accept_language}";
 
-        if ($this->postdata) {
+        if ($this->postdata && !isset($this->request_headers['Content-Length'])) {
             $headers[] = 'Content-Length: '.strlen($this->postdata);
         }
 
