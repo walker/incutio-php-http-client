@@ -36,7 +36,7 @@ class HttpClient {
     protected $referer;
     protected $accept = 'text/xml,application/xml,application/xhtml+xml,text/html,text/plain,image/png,image/jpeg,image/gif,*/*';
     protected $accept_encoding = 'gzip';
-    protected $accept_language = 'en-us';
+    protected $accept_language = 'en-US,en;q=0.8'; // 'en-us';
     protected $user_agent = 'Incutio HttpClient v0.9d';
     protected $request_headers = array();
 
@@ -46,7 +46,7 @@ class HttpClient {
     protected $use_gzip = true;
     protected $persist_cookies = true;
     protected $persist_referers = false;
-    protected $debug = true;
+    protected $debug = false;
     protected $handle_redirects = true;
     protected $max_redirects = 5;
     protected $headers_only = false;
@@ -734,7 +734,7 @@ class HttpClient {
 
         if(!empty($this->request_headers)) {
             foreach($this->request_headers as $key => $val) {
-                if($key=='Content-Length' && $val===false) {
+                if($val===false) {
                     // do nothing
                 } else {
                     $headers[] = $key.': '.$val;
@@ -753,7 +753,6 @@ class HttpClient {
             $headers[] = "Accept: {$this->accept}";
         if (!isset($this->request_headers['Accept-language']))
             $headers[] = "Accept-language: {$this->accept_language}";
-
         if ($this->postdata && !isset($this->request_headers['Content-Length'])) {
             $headers[] = 'Content-Length: '.strlen($this->postdata);
         }
