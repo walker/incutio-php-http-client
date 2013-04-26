@@ -36,7 +36,7 @@ class HttpClient {
     protected $referer;
     protected $accept = 'text/xml,application/xml,application/xhtml+xml,text/html,text/plain,image/png,image/jpeg,image/gif,*/*';
     protected $accept_encoding = 'gzip';
-    protected $accept_language = 'en-US,en;q=0.8'; // 'en-us';
+    protected $accept_language = 'en-us';
     protected $user_agent = 'Incutio HttpClient v0.9d';
     protected $request_headers = array();
 
