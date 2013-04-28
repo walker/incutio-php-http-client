@@ -309,6 +309,11 @@ class HttpClient {
 
     // --- Configuration methods:
 
+    public function setReferer($string)
+    {
+        $this->referer = $string;
+    }
+
     public function setUserAgent($string) {
         // Sets the user agent string to be used in the request.
         // Default is "Incutio HttpClient v$version".
