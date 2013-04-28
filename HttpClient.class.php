@@ -78,7 +78,7 @@ class HttpClient {
         */
 
         $bits   = parse_url($host);
-        if(isset($bits['scheme']) && isset($bits['path']) && isset($bits['host'])) {
+        if(isset($bits['scheme']) && isset($bits['host'])) {
             $host   = $bits['host'];
             $scheme = isset($bits['scheme']) ? $bits['scheme'] : 'http';
             $port   = isset($bits['port']) ? $bits['port'] : 80;
@@ -89,10 +89,10 @@ class HttpClient {
         }
         $this->host = $host;
         $this->port = $port;
-        if(isset($bits['scheme']) && isset($bits['path']) && isset($bits['host'])) {
-            $client->setScheme($scheme);
-            $client->setPath($path);
-            $client->setMethod("GET");
+        if(isset($bits['scheme']) && isset($bits['host'])) {
+            $this->setScheme($scheme);
+            $this->setPath($path);
+            $this->setMethod("GET");
         }
     }
 
