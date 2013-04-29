@@ -752,6 +752,12 @@ class HttpClient {
         if ($this->use_gzip && !isset($this->request_headers['Accept-encoding']))
             $headers[] = "Accept-encoding: {$this->accept_encoding}";
 
+        // If it is a POST, add Content-Type.
+        if (!isset($this->request_headers['Content-Type']) &&
+            $this->method == 'POST') {
+            $headers[] = "Content-Type: application/x-www-form-urlencoded";
+        }
+
         if (!isset($this->request_headers['User-Agent']))
             $headers[] = "User-Agent: {$this->user_agent}";
         if (!isset($this->request_headers['Accept']))
