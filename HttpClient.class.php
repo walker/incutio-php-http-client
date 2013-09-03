@@ -298,8 +298,8 @@ class HttpClient {
 
     public function getRequestURL() {
         // Returns the full URL that has been requested.
-        $url = 'http://'.$this->host;
-        if ($this->port != 80) {
+        $url = $this->scheme.'://'.$this->host;
+        if ($this->port != 80 && $this->scheme != 'https' || ($this->port != 443 && $this->scheme == 'https')) {        
             $url .= ':'.$this->port;
         }
         $url .= $this->path;
