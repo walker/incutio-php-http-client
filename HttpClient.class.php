@@ -134,6 +134,7 @@ class HttpClient {
         $this->path = $this->orig_path;
 
         $this->postdata = null;
+        return $result;
     }
 
     public function post($path, $data, $headers=array()) {
@@ -164,6 +165,7 @@ class HttpClient {
         $this->path = $orig_path;
 
         $this->postdata = null;
+        return $result;
     }
 
     public function put($path, $data, $headers=array()) {
@@ -194,6 +196,7 @@ class HttpClient {
         $this->path = $orig_path;
 
         $this->postdata = null;
+        return $result;
     }
 
     public function delete($path, $data, $headers=array()) {
@@ -221,6 +224,7 @@ class HttpClient {
         $this->path = $orig_path;
 
         $this->postdata = null;
+        return $result;
     }
 
     public function buildQuery($data) {
