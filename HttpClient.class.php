@@ -455,7 +455,7 @@ class HttpClient {
         */
 
         $client = self::create($url);
-        $client->get($client->getPath(), $data, $headers);
+        $client->get($client->getPath(), $data);
         return $client;
 
     }
@@ -465,7 +465,7 @@ class HttpClient {
         // Similar to [HttpClient::quickGet()], but performs a POST query.
 
         $client = self::create($url);
-        $client->post($client->getPath(), $data, $headers);
+        $client->post($client->getPath(), $data);
         return $client;
 
     }
