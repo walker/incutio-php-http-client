@@ -1,6 +1,7 @@
 {
     "name": "xc0d3rz/httpclient",
     "description": " HttpClient is a client class for the HTTP protocol.",
+    "version": "v0.9d",
     "keywords": [
         "php",
         "httpclient",
