@@ -1,6 +1,9 @@
 <?php
 
-/*
+/* Version 0.9, 6th April 2003 - Simon Willison ( http://simon.incutio.com/ )
+    Further Information: https://github.com/walker/Incutio-PHP-HTTP-Client
+    Historical Details: http://scripts.incutio.com/httpclient/
+    Incutio Ltd - www.incutio.com
 
 * Version 0.9d, 4th, April 2012 Walker Hamilton (http://walkerhamilton.com)
     - Added PUT & DELETE request types, reused postdata
@@ -68,10 +71,10 @@ class HttpClient {
 
     public function __construct($host, $port=80) {
         /*
-        
+
         $host: the web server host (for example, 'scripts.incutio.com')
         $port: optional port number
-        
+
         */
 
         $bits   = parse_url($host);
@@ -80,7 +83,7 @@ class HttpClient {
             $scheme = isset($bits['scheme']) ? $bits['scheme'] : 'http';
             $port   = isset($bits['port']) ? $bits['port'] : 80;
             $path   = isset($bits['path']) ? $bits['path'] : '/';
-            
+
             if (isset($bits['query']))
                 $path .= '?'.$bits['query'];
         }
@@ -208,7 +211,7 @@ class HttpClient {
         using the getError() method.
 
         */
-        
+
         $orig_path = $this->path;
         if(!empty($this->path))
             $this->path .= $path;
@@ -296,7 +299,7 @@ class HttpClient {
     public function getRequestURL() {
         // Returns the full URL that has been requested.
         $url = $this->scheme.'://'.$this->host;
-        if ($this->port != 80 && $this->scheme != 'https' || ($this->port != 443 && $this->scheme == 'https')) {        
+        if ($this->port != 80 && $this->scheme != 'https' || ($this->port != 443 && $this->scheme == 'https')) {
             $url .= ':'.$this->port;
         }
         $url .= $this->path;
@@ -515,14 +518,14 @@ class HttpClient {
 
         // Performs the actual HTTP request, returning true on success, false on error.
         // (You do not usually need to call this manually)
-        
+
         if($this->scheme=='https') {
             $host = 'ssl://'.$this->host;
             $this->port = 443;
         } else {
             $host = $this->host;
         }
-        
+
         if($this->debug) {
             echo '<h2>Host</h2>';
             echo '<pre>';

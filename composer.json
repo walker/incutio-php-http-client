@@ -1,5 +1,5 @@
 {
-    "name": "xc0d3rz/httpclient",
+    "name": "walker/incutio-php-http-client",
     "description": " HttpClient is a client class for the HTTP protocol.",
     "version": "v0.9d",
     "keywords": [
@@ -7,14 +7,25 @@
         "httpclient",
         "class"
     ],
-    "homepage": "http://walkerhamilton.com",
+    "homepage": "https://github.com/walker/incutio-php-http-client",
     "type": "library",
     "license": "The MIT License",
     "authors": [
         {
+            "name": "Simon Willison",
+            "homepage": "http://simon.incutio.com/"
+        }
+    ],
+    "contributors": [
+        {
             "name": "Walker Hamilton",
             "email": "hey@walkerhamilton.com",
             "homepage": "https://github.com/walker"
+        },
+        {
+            "name": "Mohammed Ali",
+            "email": "x.c0d3rz000@gmail.com",
+            "homepage": "https://github.com/xc0d3rz"
         }
     ],
     "require": {
