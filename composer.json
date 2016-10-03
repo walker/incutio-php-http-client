@@ -1,0 +1,31 @@
+{
+    "name": "xc0d3rz/httpclient",
+    "description": " HttpClient is a client class for the HTTP protocol.",
+    "version": "v0.9d",
+    "keywords": [
+        "php",
+        "httpclient",
+        "class"
+    ],
+    "homepage": "http://walkerhamilton.com",
+    "type": "library",
+    "license": "The MIT License",
+    "authors": [
+        {
+            "name": "Walker Hamilton",
+            "email": "hey@walkerhamilton.com",
+            "homepage": "https://github.com/walker"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "HttpClient": "src/"
+        },
+        "files": [
+            "src/HttpClient.class.php"
+        ]
+    }
+}

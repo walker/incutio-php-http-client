@@ -1,9 +1,6 @@
 <?php
 
-/* Version 0.9, 6th April 2003 - Simon Willison ( http://simon.incutio.com/ )
-    Further Information: https://github.com/walker/Incutio-PHP-HTTP-Client
-    Historical Details: http://scripts.incutio.com/httpclient/
-    Incutio Ltd - www.incutio.com
+/*
 
 * Version 0.9d, 4th, April 2012 Walker Hamilton (http://walkerhamilton.com)
     - Added PUT & DELETE request types, reused postdata
